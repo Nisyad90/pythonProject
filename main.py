@@ -1,8 +1,15 @@
-# main.py
+from fastapi import FastAPI, Depends
+from sqlalchemy.orm import Session
 
-from fastapi import FastAPI
-from blog.routers import user as user_router
+import models
+from database import Base, engine, get_db
+from models import User
 
 app = FastAPI()
 
-app.include_router(user_router.router)
+# Create all tables in the database
+Base.metadata.create_all(bind=engine)
+
+@app.get("/")
+def create_user():
+    return {"message": "Hello World"}
